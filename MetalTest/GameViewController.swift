@@ -29,14 +29,14 @@ let vertexData:[Float] =
 ]
 
 let vertexColorData:[Float] =
-[
-    0.0, 0.0, 1.0, 1.0,
-    0.0, 0.0, 1.0, 1.0,
-    0.0, 0.0, 1.0, 1.0,
+[               
+    0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0,
     
-    0.0, 0.0, 1.0, 1.0,
-    0.0, 0.0, 1.0, 1.0,
-    0.0, 0.0, 1.0, 1.0,
+    0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0,
     
     0.0, 0.0, 1.0, 1.0,
     0.0, 1.0, 0.0, 1.0,
@@ -74,7 +74,6 @@ class GameViewController: UIViewController {
         
         view.layer.addSublayer(metalLayer)
         view.opaque = true
-        view.backgroundColor = nil
         
         commandQueue = device.newCommandQueue()
         commandQueue.label = "main command queue"
@@ -145,7 +144,7 @@ class GameViewController: UIViewController {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).texture = drawable.texture
         renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).loadAction = .Clear
-        renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).clearColor = MTLClearColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1.0)
+        renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).clearColor = MTLClearColor(red: 0.8, green: 0.8, blue: 0.65, alpha: 1.0)
         renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).storeAction = .Store
         
         let renderEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
@@ -161,7 +160,7 @@ class GameViewController: UIViewController {
         renderEncoder?.endEncoding()
         
         // use completion handler to signal the semaphore when this frame is completed allowing the encoding of the next frame to proceed
-        // use cpature list to avoid any retain cycles if the command buffer gets retained anywhere besides this stack frame
+        // use cpature list to avoid any reta in cycles if the command buffer gets retained anywhere besides this stack frame
         commandBuffer.addCompletedHandler{ [weak self] commandBuffer in
             if let strongSelf = self {
                 dispatch_semaphore_signal(strongSelf.inflightSemaphore)
